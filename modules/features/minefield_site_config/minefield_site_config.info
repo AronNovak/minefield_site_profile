@@ -1,2 +1,4 @@
 name = Minefield Site config
 core = 7.x
+package = Minefield Site
+

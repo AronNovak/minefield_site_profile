@@ -1,0 +1,39 @@
+<?php
+/**
+ * @file
+ *   Creates the first test content on the site
+ */
+
+/**
+ * Implements hook_install().
+ */
+function minefield_site_install() {
+  // Borrowed from standard profile
+  $types = array(
+    array(
+      'type' => 'page',
+      'name' => st('Basic page'),
+      'base' => 'node_content',
+      'description' => st("Use <em>basic pages</em> for your static content, such as an 'About us' page."),
+      'custom' => 1,
+      'modified' => 1,
+      'locked' => 0,
+    ),
+  );
+
+  foreach ($types as $type) {
+    $type = node_type_set_defaults($type);
+    node_type_save($type);
+    node_add_body_field($type);
+  }
+
+  // First dummy content
+  $node = new stdClass();
+  $node->uid = 1;
+  $node->title = 'Perf analysis';
+  $node->body[FIELD_LANGUAGE_NONE][0] = array(
+    'value' => 'This site is too slow. Any idea why?',
+  );
+  node_save($node);
+}
+
