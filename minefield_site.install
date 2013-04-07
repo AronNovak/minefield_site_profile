@@ -27,14 +27,62 @@ function minefield_site_install() {
     node_add_body_field($type);
   }
 
-  // First dummy content
-  $node = new stdClass();
-  $node->uid = 1;
-  $node->type = 'page';
-  $node->title = 'Perf analysis';
-  $node->body[FIELD_LANGUAGE_NONE][0] = array(
-    'value' => 'This site is too slow. Any idea why?',
+  $html_format = array(
+    'format' => 'html',
+    'name' => 'HTML',
+    'weight' => 0,
+    'filters' => array(
+      // URL filter.
+      'filter_url' => array(
+        'weight' => 0,
+        'status' => 1,
+      ),
+      // Line break filter.
+      'filter_autop' => array(
+        'weight' => 2,
+        'status' => 1,
+      ),
+      // HTML corrector filter.
+      'filter_htmlcorrector' => array(
+        'weight' => 10,
+        'status' => 1,
+      ),
+    ),
   );
-  node_save($node);
+  $html_format = (object) $html_format;
+  filter_format_save($html_format);
+
+  // Dummy contents
+  $initial_nodes = array(
+    array(
+      'title' => 'Ljubljana is beautiful',
+      'body' => theme(
+        'image', array(
+          'path' => 'http://www.ljubljana-accommodation.si/images/01-ljubljana-snapshots1024.jpg',
+          'width' => '90%',
+          'alt' => 'From http://www.ljubljana-accommodation.si/ljubljana_snapshots.html',
+        )
+      ),
+    ),
+    array(
+      'title' => 'The big question',
+      'body' => 'This site is too slow. Any idea why?',
+    ),
+  );
+
+  foreach ($initial_nodes as $basic_data) {
+    $node = new stdClass();
+    $node->status = 1;
+    $node->promote = 1;
+    $node->type = 'page';
+    $node->title = $basic_data['title'];
+    $node->language = LANGUAGE_NONE;
+    $node->body[$node->language][0] = array(
+      'format' => 'html',
+      'value' => $basic_data['body'],
+    );
+    node_object_prepare($node);
+    node_save($node);
+  }
 }
 
