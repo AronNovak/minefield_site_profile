@@ -30,6 +30,7 @@ function minefield_site_install() {
   // First dummy content
   $node = new stdClass();
   $node->uid = 1;
+  $node->type = 'page';
   $node->title = 'Perf analysis';
   $node->body[FIELD_LANGUAGE_NONE][0] = array(
     'value' => 'This site is too slow. Any idea why?',
