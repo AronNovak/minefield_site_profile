@@ -12,6 +12,7 @@ dependencies[] = menu
 
 ; Contrib
 dependencies[] = features
+dependencies[] = session_api
 dependencies[] = flag
 
 ; Features
