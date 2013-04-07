@@ -3,4 +3,30 @@
  * Various tweaks on the site
  */
 
+define('MINEFIELD_SITE_TWEAKS_STATUS_OK', 200);
+
+/**
+ * Implements hook_init().
+ *
+ * Grabs some info for the page title.
+ */
+function minefield_site_tweaks_init() {
+
+  // Let's fetch the needed data from an external source
+  $result = drupal_http_request('http://novaak.net/dummy_endpoint.php');
+  if (!isset($result->error) && $result->code == MINEFIELD_SITE_TWEAKS_STATUS_OK) {
+    drupal_set_title($result->data);
+  }
+  else {
+    watchdog(
+      'minefield_site_tweaks',
+      t('Cannot fetch the needed info from the external source. Error: @error',
+        array(
+          '@error' => $result->error
+        )
+      )
+    );
+  }
+
+}
 

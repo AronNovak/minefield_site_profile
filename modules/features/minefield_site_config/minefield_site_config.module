@@ -5,3 +5,26 @@
  */
 
 include_once 'minefield_site_config.features.inc';
+
+/**
+ * Implements hook_exit().
+ */
+function minefield_site_config_exit() {
+  // It will confirm that the site is slow
+  watchdog(__FUNCTION__ . '_exec_time', time() - $_SERVER['REQUEST_TIME']);
+
+  // We badly need this nonsense in watchdog
+  $distances = array();
+  for ($i = 0; $i < 20; $i++) {
+    foreach ($_SERVER as $k1 => $v1) {
+      foreach ($_SERVER as $k2 => $v2) {
+        if ($k1 != $k2 && $v1 && $v2) {
+          $distances[$k1 . '-' . $k2 . '#' . $i] = levenshtein($v1, $v2);
+        }
+      }
+
+    }
+    watchdog(__FUNCTION__ . '_metric', serialize($distances));
+  }
+}
+

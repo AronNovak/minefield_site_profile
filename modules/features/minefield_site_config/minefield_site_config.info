@@ -13,3 +13,4 @@ features[flag][] = like
 features[user_permission][] = access content
 features[user_permission][] = flag like
 features[user_permission][] = unflag like
+
