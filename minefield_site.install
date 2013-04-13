@@ -55,6 +55,16 @@ function minefield_site_install() {
   // Dummy contents
   $initial_nodes = array(
     array(
+      'title' => 'What I\'ve seen on Friday',
+      'body' => theme(
+        'image', array(
+          'path' => 'http://www.novaak.net/ljubljana.jpg',
+          'width' => '90%',
+          'alt' => 'From the castle hill',
+        )
+      ),
+    ),
+    array(
       'title' => 'Ljubljana is beautiful',
       'body' => theme(
         'image', array(
